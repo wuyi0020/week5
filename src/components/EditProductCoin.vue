@@ -8,7 +8,7 @@
                 :aria-describedby="`${item.id}_title`" v-model="editItem[item.id].title" />
         </div>
         <h2 v-else class="card-header">{{ item.title }}</h2>
-        <div class="card-body d-flex align-content-between">
+        <div class="card-body d-flex align-content-between flex-column">
             <div class="input-group mb-3" v-if="edittingList[item.id]">
                 <div class="input-group-prepend">
                     <span class="input-group-text" :id="`${item.id}_imageUrl`">圖片網址</span>
