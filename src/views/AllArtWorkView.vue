@@ -66,7 +66,6 @@ export default {
                 .then((response) => {
                     this.products = response.data.products;
                     this.page = response.data.pagination;
-                    console.log(response);
                 })
                 .catch((err) => {
                     alert(err.response.data.message);

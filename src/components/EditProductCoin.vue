@@ -59,7 +59,6 @@
             </div>
         </div>
     </div>
-    
 </template>
 <script>
 import axios from 'axios';
@@ -88,20 +87,16 @@ export default {
             const url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${id}`;
             this.edittingList[id] = !this.edittingList[id];
             let putItem;
-            console.log(this.editItem[id]);
+
             putItem = { ...this.editItem[id] };
             delete putItem.id;
-            console.log(putItem);
             axios.put(url, { data: putItem })
-                .then((response) => {
-                    console.log(response);
-                    this.$emit("getcoinData");     
+                .then(() => {
+                    this.$emit("getcoinData");
                 })
                 .catch((err) => {
-                    console.log(err);
                     alert(err.response);
                 })
-            console.log(this.editItem[id]);
         },
         openProduct(item) {
             this.$emit("openProduct", item);

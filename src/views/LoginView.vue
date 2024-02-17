@@ -47,7 +47,6 @@ export default {
                 .post(api, this.user)
                 .then((response) => {
                     const { token, expired } = response.data;
-                    console.log(response);
                     document.cookie = `hexToken=${token};expires=${new Date(expired)}; path=/`;
                     this.$router.push("/");
                 })

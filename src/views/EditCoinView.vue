@@ -83,11 +83,9 @@ export default {
                 .get(url)
                 .then((response) => {
                     this.products = response.data.products;
-                    console.log(this.products);
                     this.products.sort((a, b) => {
                         return a.description > b.description ? 1 : -1;
                     })
-                    console.log(this.edittingList);
                 })
                 .catch((err) => {
                     alert(err.response.data.message);
@@ -108,31 +106,25 @@ export default {
             const url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${id}`;
             this.edittingList[id] = !this.edittingList[id];
             let putItem;
-            console.log(this.editItem[id]);
             putItem = { ...this.editItem[id] };
             delete putItem.id;
-            console.log(putItem);
             axios.put(url, { data: putItem })
-                .then((response) => {
-                    console.log(response);
+                .then(() => {
                     this.getcoinData();
                 })
                 .catch((err) => {
-                    console.log(err);
                     alert(err.response);
                 })
-            console.log(this.editItem[id]);
         },
         AddItem(item) {
             const url = `${this.apiUrl}/api/${this.apiPath}/admin/product`;
             item.description = `${this.products.length + 1}`
             let data = {};
             data["data"] = { ...item };
-            console.log(item);
-            console.log(data["data"]);
+
             axios.post(url, data)
-                .then((response) => {
-                    console.log(response);
+                .then(() => {
+
                     this.getcoinData();
                 })
                 .catch((err) => {
@@ -142,13 +134,10 @@ export default {
         delProduct(id) {
             const url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${id}`;
             axios.delete(url)
-                .then((res) => {
-                    console.log(res);
+                .then(() => {
                     this.getcoinData();
                 })
                 .catch((err) => {
-                    console.log(err);
-                    console.log(err.response.data.message);
                     alert(err.response.data.message);
                 });
         },
