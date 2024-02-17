@@ -33,7 +33,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" :id="`${item.id}_origin_price`">原價</span>
                         </div>
-                        <input type="number" class="form-control" :placeholder="item.origin_price" aria-label="原價"
+                        <input type="number" class="form-control" :placeholder="item.origin_price" aria-label="原價" min="0"
                             :aria-describedby="`${item.id}_origin_price`" v-model.number="editItem[item.id].origin_price" />
                     </div>
                     <del v-else class="col card-text">原價:{{ item.origin_price }}</del>
@@ -41,7 +41,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" :id="`${item.id}_price`">現價</span>
                         </div>
-                        <input type="number" class="form-control" :placeholder="item.origin_price" aria-label="現價"
+                        <input type="number" class="form-control" :placeholder="item.price" aria-label="現價"
                             :aria-describedby="`${item.id}_price`" v-model.number="editItem[item.id].price" />
                     </div>
                     <div v-else class="col card-text">現價:{{ item.price }}</div>
@@ -84,15 +84,28 @@ export default {
             this.editItem[id] = "";
         },
         editProductDone(id) {
+            if (this.editItem[id].title === "") {
+                alert("標題不可為空");
+                return;
+            }
+            if (this.editItem[id].origin_price === "") {
+                alert("原價不可為空");
+                return;
+            }
+            if (this.editItem[id].price === "") {
+                alert("現價不可為空");
+                return;
+            }
             const url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${id}`;
-            this.edittingList[id] = !this.edittingList[id];
             let putItem;
+            this.edittingList[id] = !this.edittingList[id];
 
             putItem = { ...this.editItem[id] };
             delete putItem.id;
             axios.put(url, { data: putItem })
                 .then(() => {
                     this.$emit("getcoinData");
+                    alert("修改完成");
                 })
                 .catch((err) => {
                     alert(err.response);
@@ -100,7 +113,7 @@ export default {
         },
         openProduct(item) {
             this.$emit("openProduct", item);
-        },
-    }
+        }
+    },
 };
 </script>
