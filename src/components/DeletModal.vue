@@ -51,6 +51,7 @@ export default {
                 .then(() => {
                     this.delProductModal.hide();
                     this.$emit("getcoinData");
+                    alert("刪除成功");
                 })
                 .catch((err) => {
                     alert(err.response.data.message);

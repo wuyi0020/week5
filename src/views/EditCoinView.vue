@@ -12,15 +12,13 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div v-if="products.length" class="col-6 mb-1">
-                <ProductCoinAdd :-add-coin="AddItem" :addItem="addItem" />
+            <div v-if="products.length" class="col-6 h-100 mb-1">
+                <ProductCoinAdd :last="last" @getcoinData="getcoinData" />
             </div>
         </div>
         <div class="row">
-            <div class="col-4" v-for="(item) in products" :key="item.id">
-                <ProductCoin :item=item
-                @openProduct="openProduct"
-                @getcoinData=getcoinData />
+            <div class="col-4 pb-3" v-for="(item) in products" :key="item.id">
+                <ProductCoin :item=item @openProduct="openProduct" @getcoinData=getcoinData />
             </div>
         </div>
         <ModalDelet :item="tempProduct" @getcoinData="getcoinData" />
@@ -62,6 +60,7 @@ export default {
                 unit: "TWD"
             },
             tempProduct: {},
+            last: 0,
         };
     },
     methods: {
@@ -84,8 +83,12 @@ export default {
                 .then((response) => {
                     this.products = response.data.products;
                     this.products.sort((a, b) => {
-                        return a.description > b.description ? 1 : -1;
+                        return a.order > b.order ? 1 : -1;
                     })
+                    //快速尋找products.order中的最大的數字 記錄到last
+                    this.last = this.products.reduce((acc, cur) => {
+                        return acc > cur.order ? acc : cur.order;
+                    }, 0);
                 })
                 .catch((err) => {
                     alert(err.response.data.message);
@@ -94,37 +97,13 @@ export default {
         openProduct(item) {
             this.tempProduct = item;
         },
-        editProduct(item) {
-            this.edittingList[item.id] = !this.edittingList[item.id];
-            this.editItem[item.id] = { ...item };
-        },
-        editProductCancel(id) {
-            this.edittingList[id] = !this.edittingList[id];
-            this.editItem[id] = "";
-        },
-        editProductDone(id) {
-            const url = `${this.apiUrl}/api/${this.apiPath}/admin/product/${id}`;
-            this.edittingList[id] = !this.edittingList[id];
-            let putItem;
-            putItem = { ...this.editItem[id] };
-            delete putItem.id;
-            axios.put(url, { data: putItem })
-                .then(() => {
-                    this.getcoinData();
-                })
-                .catch((err) => {
-                    alert(err.response);
-                })
-        },
         AddItem(item) {
             const url = `${this.apiUrl}/api/${this.apiPath}/admin/product`;
-            item.description = `${this.products.length + 1}`
             let data = {};
             data["data"] = { ...item };
 
             axios.post(url, data)
                 .then(() => {
-
                     this.getcoinData();
                 })
                 .catch((err) => {

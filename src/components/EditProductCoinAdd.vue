@@ -21,6 +21,12 @@
                 </div>
                 <input type="text" class="form-control" aria-label="內容" :aria-describedby="`add_content`" v-model="addItem.content" />
             </div>
+            <div class="input-group mb-3 col">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" :id="`add_order`">排序</span>
+                </div>
+                <input type="number" class="form-control" aria-label="排序" :aria-describedby="`add_order`" v-model="addItem.order" />
+            </div>
             <div class="row">
                 <div class="input-group mb-3 col">
                     <div class="input-group-prepend">
@@ -42,9 +48,13 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
+            url: "https://vue3-course-api.hexschool.io/v2",
+            path: "wuyi0020",
             addItem: {
                 title: "",
                 category: "coin",
@@ -55,10 +65,29 @@ export default {
                 is_enabled: 1,
                 origin_price: 0,
                 price: 0,
+                order: 0,
                 unit: "TWD",
             },
         };
     },
-    props: ["AddCoin"],
+    props:["last"],
+    methods: {
+        AddCoin(addItem) {
+            const url = `${this.url}/api/${this.path}/admin/product`;
+            axios
+                .post(url, { data: addItem })
+                .then((res) => {
+                    if (res.data.success) {
+                        alert(res.data.message);
+                        this.$emit("getcoinData");
+                    } else {
+                        alert(res.data.message);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+    },
 };
 </script>
