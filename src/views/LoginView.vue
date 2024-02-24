@@ -7,14 +7,16 @@
                         <h3 class="text-center">登入</h3>
                     </div>
                     <div class="card-body">
-                        <form @submit.prevent="login">
+                        <form @submit.prevent="login(user)">
                             <div class="mb-3">
                                 <label for="username" class="form-label">使用者名稱：</label>
-                                <input type="text" class="form-control" v-model="user.username" id="username" name="username" required />
+                                <input type="text" class="form-control" v-model="user.username" id="username"
+                                    name="username" required />
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">密碼：</label>
-                                <input type="password" class="form-control" name="password" v-model="user.password" autocomplete="current-password" />
+                                <input type="password" class="form-control" name="password" v-model="user.password"
+                                    autocomplete="current-password" />
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">登入</button>
@@ -27,7 +29,8 @@
     </div>
 </template>
 <script>
-import axios from "axios";
+import { mapActions } from 'pinia';
+import loginStore from '../store/loginStore.js';
 
 export default {
     name: "LoginView",
@@ -41,19 +44,7 @@ export default {
         };
     },
     methods: {
-        login() {
-            const api = "https://vue3-course-api.hexschool.io/v2/admin/signin";
-            axios
-                .post(api, this.user)
-                .then((response) => {
-                    const { token, expired } = response.data;
-                    document.cookie = `hexToken=${token};expires=${new Date(expired)}; path=/`;
-                    this.$router.push("/");
-                })
-                .catch((err) => {
-                    alert(err.response.data.message);
-                });
-        },
+        ...mapActions(loginStore, ["login"]),
     },
 };
 </script>

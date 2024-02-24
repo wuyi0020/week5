@@ -65,7 +65,6 @@
                     @click="openProduct(item)">刪除</button>
             </div>
         </div>
-
     </div>
 </template>
 <script>

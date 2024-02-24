@@ -33,6 +33,21 @@ const routes = [
     name: "ArtWorkView",
     component: () => import('../views/ArtWorkView.vue')
   },
+  {
+    path:"/buycoin",
+    name: "BuyCoinView",
+    component: () => import('../views/BuyCoinView.vue')
+  },
+  {
+    path:"/cart",
+    name: "CartView",
+    component: () => import('../views/CartView.vue')
+  },
+  // {
+  //   path:"/test",
+  //   name: "TestView",
+  //   component: () => import('../views/testView.vue')
+  // }
 ]
 
 const router = createRouter({

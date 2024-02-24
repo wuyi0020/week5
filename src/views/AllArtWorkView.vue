@@ -47,18 +47,6 @@ export default {
         };
     },
     methods: {
-        checkAdmin() {
-            const url = `${this.apiUrl}/api/user/check`;
-            axios
-                .post(url)
-                .then(() => {
-                    this.getData();
-                })
-                .catch((err) => {
-                    alert(err.response.data.message);
-                    this.$router.push("/login");
-                });
-        },
         getData(page = 1) {
             const url = `${this.apiUrl}/api/${this.apiPath}/products?category=作品&page=${page}`;
             axios
@@ -73,11 +61,7 @@ export default {
         },
     },
     mounted() {
-        // 取出 Token
-        const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, "$1");
-        axios.defaults.headers.common.Authorization = token;
-
-        this.checkAdmin();
+        this.getData();
     },
 };
 </script>

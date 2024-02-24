@@ -82,17 +82,17 @@ export default {
                 .get(url)
                 .then((response) => {
                     this.products = response.data.products;
-                    this.products.sort((a, b) => {
-                        return a.order > b.order ? 1 : -1;
-                    })
-                    //快速尋找products.order中的最大的數字 記錄到last
-                    this.last = this.products.reduce((acc, cur) => {
-                        return acc > cur.order ? acc : cur.order;
-                    }, 0);
                 })
                 .catch((err) => {
                     alert(err.response.data.message);
                 });
+            this.products.sort((a, b) => {
+                return a.order > b.order ? 1 : -1;
+            })
+            //快速尋找products.order中的最大的數字 記錄到last
+            this.last = this.products.reduce((acc, cur) => {
+                return acc > cur.order ? acc : cur.order;
+            }, 0);
         },
         openProduct(item) {
             this.tempProduct = item;
