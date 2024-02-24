@@ -3,6 +3,7 @@ import axios from 'axios'
 import toastr from 'toastr'
 import $ from 'jquery';
 
+
 export const cartStore = defineStore("cartStore", {
     state: () => ({
         carts: [],
@@ -23,6 +24,7 @@ export const cartStore = defineStore("cartStore", {
         getCart() {
             this.isLoading = true;
             const url = `${this.apiUrl}/api/${this.apiPath}/cart`;
+            // console.log($(toastr.success("出現錯誤")));
             console.log(url);
             axios
                 .get(url)
@@ -32,7 +34,7 @@ export const cartStore = defineStore("cartStore", {
                     this.final_total = response.data.data.final_total;
                 })
                 .catch((err) => {
-                    $(toastr.success("出現錯誤", err));
+                    $(toastr.error("出現錯誤", err));
                 })
                 .finally(() => {
                     this.isLoading = false;
@@ -47,7 +49,7 @@ export const cartStore = defineStore("cartStore", {
                     this.getCart();
                 })
                 .catch((err) => {
-                    $(toastr.success("出現錯誤", err));
+                    $(toastr.error("出現錯誤", err));
                 });
         },
         setCart(cart, value) {
@@ -64,7 +66,7 @@ export const cartStore = defineStore("cartStore", {
                     this.getCart();
                 })
                 .catch((err) => {
-                    $(toastr.success("出現錯誤", err));
+                    $(toastr.error("出現錯誤", err));
                 })
                 .finally(() => {
                     this.isLoading = false;

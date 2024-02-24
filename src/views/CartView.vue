@@ -17,7 +17,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr style="background-color: aqua;" v-for="item in getCartTotal" :key="item.product.id">
+                        <tr v-for="item in getCartTotal" :key="item.product.id">
                             <td>{{ item.product.title }}</td>
                             <td>{{ item.product.price }}</td>
                             <td>
