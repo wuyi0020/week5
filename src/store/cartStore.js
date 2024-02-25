@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import toastr from 'toastr'
-import $ from 'jquery';
+// import $ from 'jquery';
 
 
 export const cartStore = defineStore("cartStore", {
@@ -34,7 +34,7 @@ export const cartStore = defineStore("cartStore", {
                     this.final_total = response.data.data.final_total;
                 })
                 .catch((err) => {
-                    $(toastr.error("出現錯誤", err));
+                    toastr.error("出現錯誤", err);
                 })
                 .finally(() => {
                     this.isLoading = false;
@@ -45,11 +45,11 @@ export const cartStore = defineStore("cartStore", {
             axios
                 .delete(url)
                 .then((response) => {
-                    $(toastr.success("刪除成功", response.data.message));
+                    toastr.success("刪除成功", response.data.message)
                     this.getCart();
                 })
                 .catch((err) => {
-                    $(toastr.error("出現錯誤", err));
+                    toastr.error("出現錯誤", err);
                 });
         },
         setCart(cart, value) {
@@ -62,11 +62,11 @@ export const cartStore = defineStore("cartStore", {
             axios
                 .put(url, { data: data })
                 .then((response) => {
-                    $(toastr.success("更新完成", response.data.message));
+                    toastr.success("更新完成", response.data.message);
                     this.getCart();
                 })
                 .catch((err) => {
-                    $(toastr.error("出現錯誤", err));
+                    toastr.error("出現錯誤", err);
                 })
                 .finally(() => {
                     this.isLoading = false;
